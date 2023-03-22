@@ -3,7 +3,7 @@ name: todo test
 on: 
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -29,5 +29,5 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         script: |
           cd /var/www/html/todo
-          git pull origin master
+          git pull origin main
           npm restart
