@@ -13,6 +13,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Check package.json date
+      run: |
+        file="package.json"
+        max_days=30
+        file_age_in_days=$(($(date +%s) - $(date +%s -r "$file")))
+        if [ "$file_age_in_days" -lt "$max_days" ]; then
+          echo "The $file file was modified less than $max_days days ago."
+        else
+          echo "The $file file was modified more than $max_days days ago."
+        fi
+        
     - name: Deploy to VPS
       uses: appleboy/ssh-action@master
       with:
@@ -23,3 +34,4 @@ jobs:
           cd /var/www/html/todo
           git pull origin main
           npm restart
+    
